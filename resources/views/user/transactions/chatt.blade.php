@@ -11,21 +11,7 @@
             min-height: 100vh;
         }
 
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
 
-        ::-webkit-scrollbar-track {
-            width: 5px;
-            background: #f5f5f5;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            width: 1em;
-            background-color: #ddd;
-            outline: 1px solid slategrey;
-            border-radius: 1rem;
-        }
 
         .text-small {
             font-size: 0.9rem;
@@ -33,7 +19,7 @@
 
         .messages-box,
         .chat-box {
-            height: 510px;
+            height: 380px;
             overflow-y: scroll;
         }
 
@@ -48,13 +34,6 @@
 
     </style>
     <div class="container py-5 px-4">
-
-        <header class="text-center">
-            <h1 class="display-4 text-white"> Chat</h1>
-
-            </p>
-        </header>
-
         <div class="row rounded-lg overflow-hidden shadow">
 
             <div class="col-12 px-0">
@@ -69,7 +48,7 @@
                                     <div class="bg-light rounded py-2 px-3 mb-2">
                                         <p class="text-small mb-0 text-muted">{{ $room_dev->message }}</p>
                                     </div>
-                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                    <p class="small text-muted">{{ $room_dev->room_developer }}</p>
                                 </div>
 
                             </div>

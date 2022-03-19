@@ -3,10 +3,9 @@
     Transactions
 @endsection
 @section('content')
-   
+
 <div class="row">
     @isset($room)
-        @foreach ($room as $room)
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card" style="width: 18rem;margin-top: 30px;">
                 <div class="card-body">
@@ -16,7 +15,6 @@
                 </div>
               </div>
         </div>
-        @endforeach
     @endisset
 </div>
 @endsection

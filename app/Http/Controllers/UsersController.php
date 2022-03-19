@@ -43,8 +43,8 @@ class UsersController extends Controller
     public function chat($name)
     {
         $id = Auth::guard('web')->user()->id;
-        $room_dev = DataRoom::where('project_name', $name)->orWhere('developer_id' , $id)->orderBy('id', 'desc')->get();
-        $room_inves = DataRoom::where('project_name', $name)->orWhere('invester_id', $id)->orderBy('id', 'desc')->get();
+        $room_dev = DataRoom::where('project_name', $name)->orWhere('developer_id' , $id)->orderBy('id', 'asc')->get();
+        $room_inves = DataRoom::where('project_name', $name)->orWhere('invester_id', $id)->orderBy('id', 'asc')->get();
         foreach($room_dev as $key => $value)
         {
             $room_dev[$key]['room_developer'] = $value->created_at->diffForHumans();
@@ -112,7 +112,7 @@ class UsersController extends Controller
     }
     public function transactions()
     {
-        $room = DataRoom::get();
+        $room = DataRoom::first();
         return view('user.transactions.table', compact('room'));
     }
     public function email()
