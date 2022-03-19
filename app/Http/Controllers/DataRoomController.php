@@ -23,9 +23,14 @@ class DataRoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create_dataroom(Request $request)
     {
-        //
+        $room = new DataRoom();
+        $room->invester_id = $request->invester_id;
+        $room->developer_id = $request->developer_id;
+        $room->project_name = $request->project_name;
+        $room->save();
+        return redirect()->back()->with('message','Room Created Successfully!');
     }
 
     /**
@@ -36,7 +41,13 @@ class DataRoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $room = new DataRoom();
+        $room->invester_id = $request->invester_id;
+        $room->developer_id = $request->developer_id;
+        $room->project_name = $request->project_name;
+        $room->message = $request->message;
+        $room->save();
+        return redirect()->back()->with('message','Room Created Successfully!');
     }
 
     /**

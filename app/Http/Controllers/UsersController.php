@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\DataRoom;
 use App\Models\Employees;
 use App\Models\platform;
 use App\Models\Profile;
@@ -32,18 +33,33 @@ class UsersController extends Controller
     public function index()
     {
         $user = Auth::guard('web')->user()->id;
-        $platform = DB::table('platforms')->where('user_id',$user)->count();
-        $projects = DB::table('project_overviews')->where('user_id',$user)->count();
-        $request_projects = RequestProject::where('project_user_id' , $user)->count();
+        $platform = DB::table('platforms')->where('user_id', $user)->count();
+        $projects = DB::table('project_overviews')->where('user_id', $user)->count();
+        $request_projects = RequestProject::where('project_user_id', $user)->count();
         $Opportunities = ProjectOverview::count();
         $investments = RequestProject::where('user_id', $user)->count();
         return view('user.index', compact('projects', 'platform', 'request_projects', 'investments', 'Opportunities'));
     }
-
+    public function chat($name)
+    {
+        $id = Auth::guard('web')->user()->id;
+        $room_dev = DataRoom::where('project_name', $name)->orWhere('developer_id' , $id)->orderBy('id', 'desc')->get();
+        $room_inves = DataRoom::where('project_name', $name)->orWhere('invester_id', $id)->orderBy('id', 'desc')->get();
+        foreach($room_dev as $key => $value)
+        {
+            $room_dev[$key]['room_developer'] = $value->created_at->diffForHumans();
+        }
+        foreach($room_inves as $key => $value)
+        {
+            $room_inves[$key]['room_investor'] = $value->created_at->diffForHumans();
+        }
+        $user = DataRoom::where('project_name', $name)->orWhere('developer_id' , $id)->orWhere('invester_id', $id)->get();
+        return view('user.transactions.chatt', compact('room_inves','room_dev','user'));
+    }
     public function companyProfilee($id)
     {
         $Company = Company::where('user_id', $id)->get();
-        $user = User::where('id',$id)->get();
+        $user = User::where('id', $id)->get();
         return view('admin.auth.ViewProfile', compact('Company', 'user'));
     }
     public function individualProfilee($id)
@@ -74,7 +90,7 @@ class UsersController extends Controller
     public function platforms()
     {
         $user = Auth::guard('web')->user()->id;
-        $platform = platform::where('user_id', $user )->get();
+        $platform = platform::where('user_id', $user)->get();
         return view('user.platform.table', compact('platform'));
     }
     public function addplatforms()
@@ -96,7 +112,8 @@ class UsersController extends Controller
     }
     public function transactions()
     {
-        return view('user.transactions.table');
+        $room = DataRoom::get();
+        return view('user.transactions.table', compact('room'));
     }
     public function email()
     {
@@ -109,13 +126,13 @@ class UsersController extends Controller
     public function ediprofileIndivi()
     {
         $id = Auth::guard('web')->user()->id;
-        $user = Profile::where('user_id' , $id)->get();
+        $user = Profile::where('user_id', $id)->get();
         return view('user.auth.updateProfileindividual', compact('user'));
     }
     public function ediprofileCompany()
     {
         $id = Auth::guard('web')->user()->id;
-        $user = Company::where('user_id' , $id)->get();
+        $user = Company::where('user_id', $id)->get();
         return view('user.auth.updateProfilecompany', compact('user'));
     }
 
@@ -126,10 +143,10 @@ class UsersController extends Controller
     public function mycompany()
     {
         $user = Auth::guard('web')->user()->id;
-        $employeess = DB::table('employees')->where('userid',$user)->count();
-        $projects = DB::table('project_overviews')->where('user_id',$user)->count();
+        $employeess = DB::table('employees')->where('userid', $user)->count();
+        $projects = DB::table('project_overviews')->where('user_id', $user)->count();
         $employees = Employees::where('userid', $user)->get();
-        return view('user.auth.mycompany', compact('employees','employeess', 'projects'));
+        return view('user.auth.mycompany', compact('employees', 'employeess', 'projects'));
     }
     public function company()
     {
@@ -143,33 +160,33 @@ class UsersController extends Controller
     public function management()
     {
         $user_id = Auth::guard('web')->user()->id;
-        $projects = RequestProject::where('project_user_id' , $user_id)->orWhere('user_id' , $user_id)->get();
+        $projects = RequestProject::where('project_user_id', $user_id)->orWhere('user_id', $user_id)->get();
         return view('user.management.table', compact('projects'));
     }
     public function profile()
     {
         $user = Auth::guard('web')->user()->id;
-        $individual = Profile::where('user_id' , $user)->get();
-        $individuals = Profile::where('user_id' , $user)->get();
-        $Company = Company::where('user_id' , $user)->get();
-        $Companys = Company::where('user_id' , $user)->get();
+        $individual = Profile::where('user_id', $user)->get();
+        $individuals = Profile::where('user_id', $user)->get();
+        $Company = Company::where('user_id', $user)->get();
+        $Companys = Company::where('user_id', $user)->get();
         return view('user.auth.profile', compact('individual', 'individuals', 'Company', 'Companys'));
     }
     public function myplatforms($user_id)
     {
-        $platform = platform::where('id' , $user_id)->get();
+        $platform = platform::where('id', $user_id)->get();
         return view('user.platform.all', compact('platform'));
     }
     public function myprojects($user_id)
     {
-        $platform = ProjectOverview::where('ProjectName' , $user_id)->get();
-        $teaser = ProjectTeaser::where('ProjectName' , $user_id)->get();
-        $sites = ProjectSite::where('ProjectName' , $user_id)->get();
-        $Maintenance = ProjectOperations::where('ProjectName' , $user_id)->get();
-        $Contracts = ProjectContracts::where('ProjectName' , $user_id)->get();
-        $Taxes = ProjectTaxes::where('ProjectName' , $user_id)->get();
-        $Shareholders = ProjectShareholders::where('ProjectName' , $user_id)->get();
-        return view('user.projects.all', compact('platform', 'teaser', 'sites', 'Maintenance','Contracts', 'Taxes', 'Shareholders'));
+        $platform = ProjectOverview::where('ProjectName', $user_id)->get();
+        $teaser = ProjectTeaser::where('ProjectName', $user_id)->get();
+        $sites = ProjectSite::where('ProjectName', $user_id)->get();
+        $Maintenance = ProjectOperations::where('ProjectName', $user_id)->get();
+        $Contracts = ProjectContracts::where('ProjectName', $user_id)->get();
+        $Taxes = ProjectTaxes::where('ProjectName', $user_id)->get();
+        $Shareholders = ProjectShareholders::where('ProjectName', $user_id)->get();
+        return view('user.projects.all', compact('platform', 'teaser', 'sites', 'Maintenance', 'Contracts', 'Taxes', 'Shareholders'));
     }
     public function storeimage(Request $request)
     {
@@ -303,12 +320,11 @@ class UsersController extends Controller
                 $user->password = Hash::make($request->new_password);
                 $user->save();
                 $request->session()->flash('success', 'Password changed Successfully');
-                return redirect('/user/change-password')->with('message','Password Changed Successfully');
+                return redirect('/user/change-password')->with('message', 'Password Changed Successfully');
             } else {
                 $request->session()->flash('error', 'Old Password does not match');
                 return redirect('/user/change-password');
             }
-
         }
     }
     public function checkemail(Request $req)
@@ -363,7 +379,7 @@ class UsersController extends Controller
         DB::table('password_resets')->where('email', $user->email)
             ->delete();
         if ($user) {
-            return redirect('/user/login')->with('message','Password Changed Successfully!');
+            return redirect('/user/login')->with('message', 'Password Changed Successfully!');
         } else {
             return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
         }

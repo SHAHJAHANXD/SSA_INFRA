@@ -54,66 +54,80 @@
                                                     href="/view-user-company-profile/{{ $user->user_id }}">View Profile</a>
                                             </td>
                                         @endif
-                                        <td class="text-center"><a
-                                                href="/sign-non-disclosure-agreement/{{ $user->projectid }}">Sign NDA</a></td>
+                                     
                                         <?php
                                         $id = Auth::guard('web')->user()->id;
                                         ?>
+                                        
                                         @if ($user->project_user_id == $id)
+                                        @if($user->nda_developer == 2)
+                                        <td class="text-center"><a
+                                            href="/sign-non-disclosure-agreement-developer/{{ $user->projectid }}">Sign NDA</a></td>
+                                        @endif
+                                        @if($user->nda_developer == 1)
+                                        <td class="text-center">Nda Done ✔️</td>
+                                        @endif
                                             @if ($user->nda_developer == 2)
                                                 <td class="text-center"><span class="badge badge-primary">Pending</span></td>
                                             @endif
                                             @if ($user->nda_developer == 1)
-                                                <td class="text-center"><span class="badge badge-success">Active</span></td>
+                                                <td class="text-center"><span class="badge badge-success">Signed</span></td>
                                             @endif
                                             @if ($user->nda_developer == 0)
-                                                <td class="text-center"><span class="badge badge-danger">Blocked</span></td>
+                                                <td class="text-center"><span class="badge badge-danger">Un-Signed</span></td>
                                             @endif
                                             @if ($user->request_status_dev == 1)
-                                            <td class="text-center"><span class="badge badge-success">Active</span></td>
+                                            <td class="text-center"><span class="badge badge-success">Approved</span></td>
                                         @endif
                                         @if ($user->request_status_dev == 0)
                                             <td class="text-center"><span class="badge badge-danger">Blocked</span></td>
                                         @endif
                                             @if ($user->request_status_inves == 1)
-                                                <td class="text-center"><span class="badge badge-success">Active</span></td>
+                                                <td class="text-center"><span class="badge badge-success">Approved</span></td>
                                             @endif
                                             @if ($user->request_status_inves == 0)
                                                 <td class="text-center"><span class="badge badge-danger">Blocked</span></td>
                                             @endif
                                             <td class="text-center">
                                                 <a href="/user-project-developer-active/{{ $user->id }}"
-                                                    class="badge badge-success text-white" style="cursor: pointer;">Active</a>
+                                                    class="badge badge-success text-white" style="cursor: pointer;">Approve</a>
                                                 <a href="/user-project-developer-block/{{ $user->id }}"
                                                     class="badge badge-danger text-white" style="cursor: pointer;">Block</a>
                                             </td>
                                         @endif
 
                                         @if ($user->user_id == $id)
+                                        @if($user->nda_investor == 2)
+                                        <td class="text-center"><a
+                                            href="/sign-non-disclosure-agreement-investor/{{ $user->projectid }}">Sign NDA</a></td>
+                                        @endif
+                                        @if($user->nda_investor == 1)
+                                        <td class="text-center">Nda Done ✔️</td>
+                                        @endif
                                             @if ($user->nda_investor == 2)
                                                 <td class="text-center"><span class="badge badge-primary">Pending</span></td>
                                             @endif
                                             @if ($user->nda_investor == 1)
-                                                <td class="text-center"><span class="badge badge-success">Active</span></td>
+                                                <td class="text-center"><span class="badge badge-success">Signed</span></td>
                                             @endif
                                             @if ($user->nda_investor == 0)
-                                                <td class="text-center"><span class="badge badge-danger">Blocked</span></td>
+                                                <td class="text-center"><span class="badge badge-danger">Un-Signed</span></td>
                                             @endif
                                             @if ($user->request_status_dev == 1)
-                                                <td class="text-center"><span class="badge badge-success">Active</span></td>
+                                                <td class="text-center"><span class="badge badge-success">Approved</span></td>
                                             @endif
                                             @if ($user->request_status_dev == 0)
                                                 <td class="text-center"><span class="badge badge-danger">Blocked</span></td>
                                             @endif
                                             @if ($user->request_status_inves == 1)
-                                                <td class="text-center"><span class="badge badge-success">Active</span></td>
+                                                <td class="text-center"><span class="badge badge-success">Approved</span></td>
                                             @endif
                                             @if ($user->request_status_inves == 0)
                                                 <td class="text-center"><span class="badge badge-danger">Blocked</span></td>
                                             @endif
                                             <td class="text-center">
                                                 <a href="/user-project-invester-active/{{ $user->id }}"
-                                                    class="badge badge-success text-white" style="cursor: pointer;">Active</a>
+                                                    class="badge badge-success text-white" style="cursor: pointer;">Approve</a>
                                                 <a href="/user-project-invester-block/{{ $user->id }}"
                                                     class="badge badge-danger text-white" style="cursor: pointer;">Block</a>
                                             </td>

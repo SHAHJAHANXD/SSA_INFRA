@@ -4,7 +4,7 @@
 @endsection
 @section('extra-heads')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-
-                                alpha/css/bootstrap.css" rel="stylesheet">
+                                    alpha/css/bootstrap.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -24,8 +24,8 @@
                         </div>
                     @endif
                     <table id="datatable-buttons" style="    width: 100%;
-                    display: block;
-                    overflow-y: auto;" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        display: block;
+                        overflow-y: auto;" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th class="text-center">Request User Name</th>
@@ -34,6 +34,7 @@
                                 <th class="text-center">Project User Email</th>
                                 <th class="text-center">Project Type</th>
                                 <th class="text-center">View Profile</th>
+                                <th class="text-center">Create Room</th>
                                 <th class="text-center">NDA Status Developer</th>
                                 <th class="text-center">NDA Status Investor</th>
                                 <th class="text-center">Project Status From Developer</th>
@@ -62,6 +63,16 @@
                                                     href="/admin/view-user-company-profile/{{ $user->user_id }}">View
                                                     Profile</a></td>
                                         @endif
+                                        <td class="text-center">
+                                            <form action="{{ route('create_dataroom') }}" method="POST">
+                                                @csrf
+                                                <input type="text" hidden value="{{ $user->user_id }}" name="invester_id" >
+                                                <input type="text" hidden value="{{ $user->project_user_id }}" name="developer_id" >
+                                                <input type="text" hidden value="{{ $user->ProjectName }}" name="project_name" >
+                                                <button class="btn btn-success" type="submit">Create Room</button>
+                                            </form>
+                                        </td>
+
                                         @if ($user->nda_developer == 2)
                                             <td class="text-center"><span class="badge badge-primary">Pending</span></td>
                                         @endif

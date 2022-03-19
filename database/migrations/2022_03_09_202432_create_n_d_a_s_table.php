@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('user_id')->nullable();
             $table->string('inves_user_id')->nullable();
-            $table->string('nda')->nullable();
+            $table->string('nda_dev')->nullable();
+            $table->string('nda_inves')->nullable();
             $table->string('nda_user_status')->default(2);
             $table->string('nda_dev_status')->default(2);
             $table->string('nda_inves_status')->default(2);

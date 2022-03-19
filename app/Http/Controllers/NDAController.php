@@ -15,9 +15,13 @@ class NDAController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function nda($id)
+    public function ndadeveloper($id)
     {
-        return view('user.auth.nda' , ['id' => $id]);
+        return view('user.auth.ndadev' , ['id' => $id]);
+    }
+       public function ndainvestor($id)
+    {
+        return view('user.auth.ndainves' , ['id' => $id]);
     }
 
     /**
@@ -36,15 +40,18 @@ class NDAController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function developer(Request $request)
     {
+        $request->validate([
+            'nda_dev' =>  'mimes:pdf|required|max:3072',
+        ]);
         $user =  Auth::guard('web')->user()->id;
         $projectid = $request->inves_user_id;
         $nda = new NDA();
-        if ($request->hasfile('nda')) {
-            $imageName = time() . '.' . $request->nda->extension();
-            $nda->nda = $imageName;
-            $request->nda->move(public_path('pdfs'), $imageName);
+        if ($request->hasfile('nda_dev')) {
+            $imageName = time() . '.' . $request->nda_dev->extension();
+            $nda->nda_dev = $imageName;
+            $request->nda_dev->move(public_path('pdfs'), $imageName);
         }
         $nda->user_id = $user;
         $nda->inves_user_id = $projectid;
@@ -59,7 +66,38 @@ class NDAController extends Controller
         $update_id = $projectid;
         if (isset($update_id) && $update_id > 0) {
             $userr = RequestProject::find($update_id);
-            $userr->nda = 1;
+            $userr->nda_developer = 1;
+            $userr->save();
+            return redirect()->back()->with('messsage','NDA Submitted Successfully!');
+        }
+    }
+    public function investor(Request $request)
+    {
+        $request->validate([
+            'nda_inves' =>  'mimes:pdf|required|max:3072',
+        ]);
+        $user =  Auth::guard('web')->user()->id;
+        $projectid = $request->inves_user_id;
+        $nda = new NDA();
+        if ($request->hasfile('nda_inves')) {
+            $imageName = time() . '.' . $request->nda_inves->extension();
+            $nda->nda_inves = $imageName;
+            $request->nda_inves->move(public_path('pdfs'), $imageName);
+        }
+        $nda->user_id = $user;
+        $nda->inves_user_id = $projectid;
+        $nda->save();
+        if ($this->changeStatuss($projectid)) {
+            return redirect()->back()->with('message', trans('Account Created Successfully!'));
+        }
+
+    }
+    public function changeStatuss($projectid)
+    {
+        $update_id = $projectid;
+        if (isset($update_id) && $update_id > 0) {
+            $userr = RequestProject::find($update_id);
+            $userr->nda_investor = 1;
             $userr->save();
             return redirect()->back()->with('messsage','NDA Submitted Successfully!');
         }

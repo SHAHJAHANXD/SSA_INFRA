@@ -14,17 +14,17 @@ Non Disclosure Agreement
     <div class="col-lg-6 col-md-6 col-sm-12 offset-lg-3 offset-md-3" style="margin-top: 50px">
         <div class="card m-b-30">
             <div class="card-body">
-                <form action="{{ route('post.nda') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('post.nda.developer') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <h5 class="header-title mt-0" style="font-size: 25px; text-align:center;">Non Disclosure Agreement</h5>
                     <div class="form-group row">
                         <div class="col-12">
                             <p style="text-align:center;">Here it is the non disclosure agreement. Click on this link to get Non Disclosure Agreement(NDA). <a href="{{ asset('non-disclosure-agreement.pdf') }}" download="{{ asset('non-disclosure-agreement.pdf') }}">Click here</a> Read all the form clearly before sign on the papers. After sign upload your scanned file here. </p>
                             <label for="">Non Disclosure Agreement</label>
-                            <input type="file" class="form-control" name="nda" >
+                            <input type="file" class="form-control" name="nda_dev" >
                             <input type="text" hidden class="form-control" name="inves_user_id" value="{{ $id }}" placeholder="Enter Opportunity Brief">
-                            @if ($errors->has('nda'))
-                            <span class="text-danger">{{ $errors->first('nda') }}</span>
+                            @if ($errors->has('nda_dev'))
+                            <span class="text-danger">{{ $errors->first('nda_dev') }}</span>
                             @endif
                         </div>
                     </div>

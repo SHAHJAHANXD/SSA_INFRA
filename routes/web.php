@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DataRoomController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\LinkedInController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\RequestProjectController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UsersController;
 use App\Models\Company;
+use App\Models\DataRoom;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/update-password', [UsersController::class, 'changePassword'])->name('changePassword');
@@ -41,6 +43,9 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('/store-platforms', [PlatformController::class, 'store'])->name('store_platforms');
         // Projects
         Route::get('/my-projects', [UsersController::class, 'projects'])->name('projects');
+
+        Route::get('/user-chat/{name}', [UsersController::class, 'chat'])->name('chat');
+        Route::post('/userchat-project', [DataRoomController::class, 'store'])->name('chat.store');
 
         Route::get('/add-projects', [ProjectsController::class, 'addprojects'])->name('add_projects');
         Route::post('/store-projects', [ProjectsController::class, 'store'])->name('store_projects');
@@ -91,8 +96,10 @@ Route::group(['middleware' => 'auth:web'], function () {
 
         Route::post('/request-project', [RequestProjectController::class, 'requestproject'])->name('requestproject');
 
-        Route::get('/sign-non-disclosure-agreement/{id}', [NDAController::class, 'nda'])->name('nda');
-        Route::post('/store-nda', [NDAController::class, 'store'])->name('post.nda');
+        Route::get('/sign-non-disclosure-agreement-developer/{id}', [NDAController::class, 'ndadeveloper'])->name('ndadeveloper');
+        Route::get('/sign-non-disclosure-agreement-investor/{id}', [NDAController::class, 'ndainvestor'])->name('ndainvestor');
+        Route::post('/store-nda-developer', [NDAController::class, 'developer'])->name('post.nda.developer');
+        Route::post('/store-nda-investor', [NDAController::class, 'investor'])->name('post.nda.investor');
 
         Route::get('/user-project-developer-active/{id}', [RequestProjectController::class, 'status1dev']);
         Route::get('/user-project-developer-block/{id}', [RequestProjectController::class, 'status0dev']);
@@ -171,6 +178,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/view-user-company-profile/{id}', [UsersController::class, 'companyProfilee'])->name('admin.companyProfile');
         Route::get('/user-project-active/{id}', [RequestProjectController::class, 'statuss1']);
         Route::get('/user-project-block/{id}', [RequestProjectController::class, 'statuss0']);
+        Route::post('/create_dataroom', [DataRoomController::class, 'create_dataroom'])->name('create_dataroom');
     });
 });
 
