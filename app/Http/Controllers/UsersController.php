@@ -112,7 +112,8 @@ class UsersController extends Controller
     }
     public function transactions()
     {
-        $room = DataRoom::first();
+        $id = Auth::guard('web')->user()->id;
+        $room = DataRoom::where('developer_id', $id)->orWhere('invester_id', $id)->get();
         return view('user.transactions.table', compact('room'));
     }
     public function email()
