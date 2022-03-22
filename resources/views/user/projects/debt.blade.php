@@ -244,6 +244,13 @@
                                     <span class="text-danger">{{ $errors->first('Comments') }}</span>
                                 @endif
                             </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <label for="">Structure Comments</label>
+                               <input type="text" class="form-control" name="StructureComments" placeholder="Enter Structurr Comment here...">
+                                @if ($errors->has('StructureComments'))
+                                    <span class="text-danger">{{ $errors->first('StructureComments') }}</span>
+                                @endif
+                            </div>
                         </div>
                         <h4>PRINCIPAL OUTSTANDING</h4>
                         <div class="form-group row">

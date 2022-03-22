@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProjectOverview;
 use App\Models\ProjectRevenue;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,11 @@ class ProjectRevenueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function addrevenues()
     {
-        //
+        $projects = ProjectOverview::get();
+        $projectsid = ProjectOverview::get();
+        return view('user.projects.revenue', compact('projects', 'projectsid'));
     }
 
     /**

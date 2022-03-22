@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectEnvironmental;
+use App\Models\ProjectOverview;
 use Illuminate\Http\Request;
 
 class ProjectEnvironmentalController extends Controller
@@ -12,9 +13,14 @@ class ProjectEnvironmentalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function environmental()
     {
-        //
+  
+        $projects = ProjectOverview::get();
+        $projectsid = ProjectOverview::get();
+        return view('user.projects.environmental', compact('projects', 'projectsid'));
+
+    
     }
 
     /**
@@ -35,7 +41,20 @@ class ProjectEnvironmentalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'ProjectName' => 'required|max:250|unique:project_environmentals',
+            'Assessment' => 'required|max:250',
+            'ManagementPlan' => 'required|max:250',
+            'Consultant' => 'required|max:250',
+        ]);
+        $share = new ProjectEnvironmental();
+        $share->ProjectId = $request->ProjectId;
+        $share->ProjectName = $request->ProjectName;
+        $share->Assessment = $request->Assessment;
+        $share->ManagementPlan = $request->ManagementPlan;
+        $share->Consultant = $request->Consultant;
+        $share->save();
+        return redirect()->back()->with('message','Equity Shareholders Added Successfully!');
     }
 
     /**

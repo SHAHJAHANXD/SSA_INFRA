@@ -49,25 +49,24 @@ class ProjectDebtController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'ProjectName' => 'required|max:250|unique:project_contracts',
-        //     'BuildingPermitsAvailable' => 'required|max:250',
-        //     'EnvironmentalPermitsAvailable' => 'required|max:250',
-        //     'InterconnectionPermitsAvailable' => 'required|max:250',
-        //     'GeneralRisks' => 'required|max:250',
-        //     'TransitRisks' => 'required|max:250',
-        //     'Construction_ErectionRisks' => 'required|max:250',
-        //     'ThirdPartyLiability' => 'required|max:250',
-        //     'ProfessionalIndemnity' => 'required|max:250',
-        //     'InsuranceCosts' => 'required|max:250',
-        //     'InsuranceCostsCurrency' => 'required|max:250',
-        //     'CommentAboutInsurance' => 'required|max:250',
-        //     'ProjectDeveloperEPC' => 'required|max:250',
-        //     'EPC_Contract' => 'required|max:250',
-        //     'ProcurementContractor' => 'required|max:250',
-        //     'EngineeringContractor' => 'required|max:250',
-        //     'ConstructionContractor' => 'required|max:250',
-        // ]);
+        $request->validate([
+            'ProjectName' => 'required|max:250|unique:project_debts',
+            'ShareOfProject' => 'required|max:250',
+            'FixedRate' => 'required|max:250',
+            'RepaymentSchedule' => 'required|max:250',
+            'LenderName' => 'required|max:250',
+            'DebtType' => 'required|max:250',
+            'MinimumDSCR' => 'required|max:250',
+            'LoanTerm' => 'required|max:250',
+            'DebtDescription' => 'required|max:250',
+            'StructureComments' => 'required|max:250',
+            'Currency' => 'required|max:250',
+            'InterestRate' => 'required|max:250',
+            'Amount' => 'required|max:250',
+            'Comments' => 'required|max:250',
+            'PrincipalCurrency' => 'required|max:250',
+            'PrincipalAmount' => 'required|max:250',
+        ]);
         $contracts = new ProjectDebt();
         $contracts->ProjectId = $request->ProjectId;
         $contracts->ProjectName = $request->ProjectName;

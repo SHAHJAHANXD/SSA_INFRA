@@ -128,9 +128,8 @@
             <div class="card m-b-30">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">Add Projects Environmental and Social</h4>
-                    <h4 style="text-align: right"><a href="{{ route('add_projects_environmental') }}}"
-                            class="btn btn-success waves-effect waves-light">Add
-                            Projects Environmental and Social</a></h4>
+                    <h4 style="text-align: right"><a href="{{ route('add_projects_environmental') }}"
+                            class="btn btn-success waves-effect waves-light">Add Projects Environmental and Social</a></h4>
                 </div>
             </div>
         </div>

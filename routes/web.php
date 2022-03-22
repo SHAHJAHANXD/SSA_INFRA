@@ -65,6 +65,10 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/add-projects-revenues-stream', [ProjectRevenueController::class, 'addrevenues'])->name('add_projects_revenues');
         Route::post('/store-projects-revenues-stream', [ProjectRevenueController::class, 'store'])->name('store_projects_revenues');
 
+        Route::get('/add-projects-environmental-social', [ProjectEnvironmentalController::class, 'environmental'])->name('add_projects_environmental');
+        Route::post('/store-projects-revenues-stream', [ProjectEnvironmentalController::class, 'store'])->name('store_projects_environmental');
+
+
         Route::get('/add-projects-projects-operations-maintenance', [ProjectOperationsController::class, 'addmaintenance'])->name('add_projects_maintenance');
         Route::post('/store-projects_operations', [ProjectOperationsController::class, 'store'])->name('store_projects_maintenance');
 
@@ -82,9 +86,6 @@ Route::group(['middleware' => 'auth:web'], function () {
 
         Route::get('/add-projects-financial', [ProjectFinancialController::class, 'addfinancial'])->name('add_projects_financial');
         Route::post('/store-projects-financial', [ProjectFinancialController::class, 'store'])->name('store_projects_financial');
-
-        Route::get('/add-projects-environmental-social', [ProjectEnvironmentalController::class, 'addenvironmental'])->name('add_projects_environmental');
-        Route::post('/store-projects-environmental', [ProjectEnvironmentalController::class, 'store'])->name('store_projects_environmental');
 
         Route::get('/my-investments', [UsersController::class, 'investments'])->name('investments');
         Route::get('/ongoing-transactions', [UsersController::class, 'transactions'])->name('transactions');
