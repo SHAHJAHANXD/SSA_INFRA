@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('data_rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('developer_id')->nullable();
-            $table->string('project_name')->nullable();
+            $table->string('sender_id')->nullable();
+            $table->string('receiver_id')->nullable();
             $table->string('invester_id')->nullable();
             $table->string('message')->nullable();
             $table->timestamps();

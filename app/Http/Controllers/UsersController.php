@@ -43,8 +43,8 @@ class UsersController extends Controller
     public function chat($name)
     {
         $id = Auth::guard('web')->user()->id;
-        $room_dev = DataRoom::where('project_name', $name)->orWhere('developer_id' , $id)->orderBy('id', 'asc')->get();
-        $room_inves = DataRoom::where('project_name', $name)->orWhere('invester_id', $id)->orderBy('id', 'asc')->get();
+        $room_dev = DataRoom::where('project_name', $name)->orWhere('sender_id' , $id)->orWhere('receiver_id', $id)->orderBy('id', 'asc')->get();
+        $room_inves = DataRoom::where('project_name', $name)->orWhere('receiver_id', $id)->orderBy('id', 'asc')->get();
         foreach($room_dev as $key => $value)
         {
             $room_dev[$key]['room_developer'] = $value->created_at->diffForHumans();
@@ -53,7 +53,7 @@ class UsersController extends Controller
         {
             $room_inves[$key]['room_investor'] = $value->created_at->diffForHumans();
         }
-        $user = DataRoom::where('project_name', $name)->orWhere('developer_id' , $id)->orWhere('invester_id', $id)->get();
+        $user = DataRoom::where('project_name', $name)->orWhere('sender_id' , $id)->orWhere('receiver_id', $id)->get();
         return view('user.transactions.chatt', compact('room_inves','room_dev','user'));
     }
     public function companyProfilee($id)
@@ -113,7 +113,7 @@ class UsersController extends Controller
     public function transactions()
     {
         $id = Auth::guard('web')->user()->id;
-        $room = DataRoom::where('developer_id', $id)->orWhere('invester_id', $id)->get();
+        $room = DataRoom::where('sender_id', $id)->orWhere('receiver_id', $id)->get();
         return view('user.transactions.table', compact('room'));
     }
     public function email()

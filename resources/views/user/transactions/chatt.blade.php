@@ -39,33 +39,35 @@
             <div class="col-12 px-0">
 
                 <div class="px-4 py-5 chat-box bg-white">
+                    @php
+                        $id = Auth::guard('web')->user()->id;
+                    @endphp
                     @isset($room_dev)
                         @foreach ($room_dev as $room_dev)
-                            <div class="media w-50 mb-3"><img src="https://bootstrapious.com/i/snippets/sn-chat/avatar.svg"
-                                    alt="user" width="50" class="rounded-circle">
-
-                                <div class="media-body ml-3">
-                                    <div class="bg-light rounded py-2 px-3 mb-2">
-                                        <p class="text-small mb-0 text-muted">{{ $room_dev->message }}</p>
+                            @if ( $room_dev->sender_id == $id)
+                                <div class="media w-50 mb-3"><img src="https://bootstrapious.com/i/snippets/sn-chat/avatar.svg"
+                                        alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-3">
+                                        <div class="bg-light rounded py-2 px-3 mb-2">
+                                            <p class="text-small mb-0 text-muted">{{ $room_dev->message }}</p>
+                                        </div>
+                                        <p class="small text-muted">{{ $room_dev->room_developer }}</p>
                                     </div>
-                                    <p class="small text-muted">{{ $room_dev->room_developer }}</p>
                                 </div>
-
-                            </div>
+                                @else
+                                <div class="media w-50 ml-auto mb-3">
+                                    <div class="media-body">
+                                        <div class="bg-primary rounded py-2 px-3 mb-2">
+                                            <p class="text-small mb-0 text-white">{{ $room_dev->message }}</p>
+                                        </div>
+                                        <p class="small text-muted">{{ $room_dev->room_developer }}</p>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
                     @endisset
-                    @isset($room_inves)
-                        @foreach ($room_inves as $room_inves)
-                            <div class="media w-50 ml-auto mb-3">
-                                <div class="media-body">
-                                    <div class="bg-primary rounded py-2 px-3 mb-2">
-                                        <p class="text-small mb-0 text-white">{{ $room_inves->message }}</p>
-                                    </div>
-                                    <p class="small text-muted">{{ $room_inves->room_investor }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endisset
+
+                    
                 </div>
                 <form action="{{ route('chat.store') }}" method="POST" class="bg-light">
                     @csrf
@@ -79,7 +81,6 @@
                                 <input type="text" hidden value="{{ $user->project_name }}" name="project_name">
                             @endforeach
                         @endisset
-
                         <div class="input-group-append">
                             <button id="button-addon2" type="submit" class="btn btn-link"> <i
                                     class="fa fa-paper-plane"></i></button>
